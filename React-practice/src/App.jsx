@@ -3,29 +3,36 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import { Box } from './box';
+// import { Box } from './box';
 
 function App() {
   // console.log("This is the app component");
   const [count, setCount] = useState(0);
-  const  [cohorts, setCohorts] = useState([62, 63, 64]);
+  const  [cohortNumbers, setCohorts] = useState([62, 63, 64]);
 
   const handleClick = () => {
+    const NewCohortNumbers = cohortNumbers.map((num) => 64);
     console.log("I've been clicked");
-    setCohorts([64]);
+    setCohorts(NewCohortNumbers);
   };
 
   const handleAddCohort = () => {
-    const lastCohort = cohorts[cohorts.length - 1];
-    setCohorts(cohorts.concat(lastCohort + 1));
+    const lastCohort = cohortNumbers[cohortNumbers.length - 1];
+    setCohorts(cohortNumbers.concat(lastCohort + 1));
     console.log('added new cohort: ', lastCohort + 1);
   };
 
   const boxes = [];
 
   // create a Box component for each element in cohorts
-  for (let i = 0; i < cohorts.length; i++) {
-    boxes.push(<Box cohortNumber={cohorts[i]} />);
+  for (let i = 0; i < cohortNumbers.length; i++) {
+    boxes.push(
+      <Box
+        key={crypto.randomUUID()}
+        number={cohortNumbers[i]} 
+        handleClickMe={handleClick} 
+      />
+    );
   }
 
   return (
@@ -55,5 +62,16 @@ function App() {
     </>
   )
 }
+
+const Box = (props) => {
+  
+  console.log(props);
+  return (
+    <div className="box">
+      <p>Cohort {props.number} Is Awesome!</p>
+      <button onClick={props.handleClickMe}>Click Me</button>
+    </div>
+  );
+};
 
 export default App
